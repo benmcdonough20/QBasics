@@ -1,0 +1,173 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{quantikz}
+\usepackage{physics}
+\usepackage{amssymb}
+\usepackage[margin = 2cm]{geometry} 
+\usepackage{hyperref}
+
+\begin{document}
+
+\noindent {\Huge \textbf{$\hat Q\ket{B}$asics}}\\
+{\large \textbf{Activity 2:} Quantum states and measurements}\\
+
+\section*{Complex numbers}
+\subsection*{Euler's Formula}
+Define $f(\theta) = e^{i\theta}$ and $g(\theta) = \cos(\theta) + i\sin(\theta)$. Show that $f'(\theta) = if(\theta)$ and $g'(\theta) = ig(\theta)$, then show that $f(0) = g(0) = 1$. This proves that $f(\theta) = g(\theta)$, which is Euler's formula:
+$$
+e^{i\theta} = \cos(\theta) + i\sin(\theta)
+$$
+Now show that $(e^{i\theta})^\ast = e^{-i\theta}$, and find $|e^{i\theta}|^2$.
+
+\subsubsection*{Solution}
+Taking the derivative,
+$$
+f'(\theta) = \dv{\theta}e^{i\theta} = ie^{i\theta} = if(\theta)
+$$
+$$
+g'(\theta) = \dv{\theta}\cos(\theta) + i\dv{\theta}\sin(\theta) = -\sin(\theta) + i\cos(\theta) = i(\cos(\theta)+i\sin(\theta)) = ig(\theta)
+$$
+Then we check $f(0) = e^{0} = 1$ and $g(0) = \cos(0) + i\sin(0) = 1$. Since $f'$ and $g'$ are both continuous, $f$ and $g$ both satisfy the same differential equation, and they have the same initial condition, they must be equal for all values of $\theta$. We can use this to show that
+$$
+(e^{i\theta})^\ast = (\cos(\theta) + i\sin(\theta))^\ast = \cos(\theta) - i \sin(\theta) = e^{-i\theta}
+$$
+Lastly, we have
+$$
+|e^{i\theta}|^2 = \cos[2](\theta) + \sin[2](\theta) = 1
+$$
+where the magnitude of a complex number $a + bi$ is defined to be $|a+bi|^2 = (a+bi)(a-bi) = a^2 + b^2$.
+\subsection*{Magnitudes}
+Let $z_1, z_2$ be complex numbers. Show that $|z_1z_2|^2 = |z_1|^2|z_2|^2$. (You can do this quickly using $|z_1|^2 = z_1^\ast z_1$)
+
+\subsubsection*{Solution}
+We note that given two complex numbers $a + bi$ and $c+di$, we have
+$$
+[(a+bi)(c+di)]^\ast = [ac-bd+i(ad+bc)]^\ast = ac-bd-i(ad+bc) = (a-bi)(c-di) = (a+bi)^\ast(c+di)^\ast
+$$
+Using $|z_1|^2 = z_1^\ast z_1$, we have 
+$$
+|z_1z_2|^2 = z_1z_2(z_1z_2)^\ast = z_1z_1^\ast z_2 z_2^\ast = |z_1|^2|z_2|^2
+$$
+\section*{Change of basis}
+The choice of basis $\ket{0}, \ket{1}$ was completely arbitrary, and any orthonormal basis will do the trick. We define
+\begin{align}
+\ket{+} &= \frac{\ket{0}+\ket{1}}{\sqrt{2}} & \ket{-} &= \frac{\ket{0}-\ket{1}}{\sqrt{2}}
+\end{align}
+
+\subsection*{Orthonormality}
+Prove that $\{\ket{+}, \ket{-}\}$ form an orthonormal set. Try working this out using Dirac's bra-ket notation, remembering that $\{\ket{0}, \ket{1}\}$ form an orthonormal set.
+
+\subsubsection*{Solution}
+An orthonormal collection $\{\ket{n}\}$ satisfies $\braket{n}{m} = \delta_{nm}$, where 
+$$
+\delta_{nm}
+=\begin{cases}
+1 & n = m\\
+0 & n \neq m
+\end{cases}
+$$
+We can check the inner products directly using distributivity and the orthonormality of $\ket{0}, \ket{1}$. Checking explicitly:
+\begin{align*}
+\braket{+}{+} &= \frac{1}{2}(\bra 0 + \bra 1)(\ket 0 + \ket 1) = \frac{1}{2}(\braket{0}{0} + \braket{0}{1} + \braket{1}{0} + \braket{1}{1}) = 1 \\
+\braket{+}{-} &= \frac{1}{2}(\bra 0 + \bra 1)(\ket 0 - \ket 1) = \frac{1}{2}(\braket{0}{0} - \braket{0}{1} + \braket{1}{0} - \braket{1}{1}) = 0 \\
+\braket{-}{-} &= \frac{1}{2}(\bra 0 - \bra 1)(\ket 0 - \ket 1) = \frac{1}{2}(\braket{0}{0} - \braket{0}{1} - \braket{1}{0} + \braket{1}{1}) = 1 \\
+\end{align*}
+Note: taking the complex conjugate of an inner product switches the order, so $\braket{-}{+} = (\braket{+}{-})^\ast = 0$. This is reflective of the properties of the adjoint operation:
+$$
+(\braket{+}{-})^\ast = (\braket{+}{-})^\dagger = \ket{-}^\dagger \bra{+}^\dagger = \braket{-}{+}
+$$
+The adjoint switches the order just like taking the transpose. This is also a general property of inner products.
+\subsection*{Measuring in another basis}
+Suppose we have the general single-qubit state
+$$
+\ket{\psi} = \alpha \ket{0} + \beta{\ket 1}
+$$
+The Borne rule holds with respect to any basis. Asking the system whether it is in the state $\ket{0}$ or $\ket{1}$ is called a $Z-$basis measurement, and the outcome is $\ket{0}$ with probability $|\alpha|^2$ and $\ket{1}$ with probability $|\beta|^2$. We can also ask whether the system is in the $\ket{+}$ state or $\ket{-}$ state, and we will find $\ket{+}$ with probability $|\braket{+}{\psi}|^2$ and $\ket{-}$ with probability $|\braket{-}{\psi}|^2$. This is known as an $X-$basis measurement.
+\begin{itemize}
+\item Work out the probability for the system to be in the state $\ket{+}$ and $\ket{-}$ in terms of $\alpha$ and $\beta$.
+\item Once a measurement is made, the system collapses into the state consistent with the measurement result. For instance, after measuring $\ket{+}$, the system is left in $\ket{+}$. After making an $X-$basis measurement of $\ket{\psi}$, what is the probability of measuring $\ket{0}$ or $\ket{1}$?
+\end{itemize}
+
+\subsubsection*{Solution}
+There are two ways to go about this. The first way would be to invert the transformation above, finding
+\begin{align*}
+    \ket{0} &= \frac{\ket + + \ket -}{\sqrt{2}} & \ket{1} &= \frac{\ket + - \ket -}{\sqrt{2}}
+\end{align*}
+Then the state can be re-written in this basis:
+\begin{align*}
+\ket{\psi} &= \alpha \qty(\frac{\ket + + \ket -}{\sqrt{2}}) + \beta \qty(\frac{\ket + - \ket -}{\sqrt{2}})
+= \qty(\frac{\alpha + \beta}{\sqrt{2}})\ket{+} + \qty(\frac{\alpha - \beta}{\sqrt{2}})\ket{-}
+\end{align*}
+Then the probability of measuring $\ket{+}$ is $|\braket{+}{\psi}|^2 = \frac{1}{2}\qty|\alpha + \beta|^2$ and the probability of measuring $\ket{-}$ is $\frac{1}{2}\qty|\alpha - \beta|^2$. The second way to go about this would be to compute the inner products of the basis vectors directly:
+\begin{align*}
+\braket{0}{+} &= \qty(\frac{\braket{0}{0} + \bra{0}\ket{1}}{\sqrt{2}}) = \frac{1}{\sqrt{2}} & \braket{0}{-} &= \qty(\frac{\braket{0}{0} - \bra{0}\ket{1}}{\sqrt{2}}) = \frac{1}{\sqrt{2}} \\
+\braket{1}{+} &= \qty(\frac{\braket{1}{0} + \bra{1}\ket{1}}{\sqrt{2}}) = \frac{1}{\sqrt{2}} & \braket{1}{-} &= \qty(\frac{\braket{1}{0} - \bra{1}\ket{1}}{\sqrt{2}}) = -\frac{1}{\sqrt{2}} \\
+\end{align*}
+Using this, the Born amplitudes are
+\begin{align*}
+    \qty|\braket{+}{\psi}|^2 &= \qty|\alpha\braket{+}{0}+ \beta\braket{+}{1}|^2 = \frac{1}{2}\qty|\alpha + \beta|^2 \\
+    \qty|\braket{-}{\psi}|^2 &= \qty|\alpha\braket{-}{0}+ \beta\braket{-}{1}|^2 = \frac{1}{2}\qty|\alpha - \beta|^2
+\end{align*}
+Lastly, if the system is measured in the $X$ basis, then it collapses into $\ket{+}$ or $\ket{-}$ with the probabilities given above. If it collapses to $\ket{+}$, then the probability of a successive measurement yielding $\ket{0}$ is $\qty|\braket{0}{+}|^2 = \frac{1}{2}$, and $\ket{1}$ with complimentary probability $\frac{1}{2}$. If the first measurement instead leaves the system in $\ket{-}$, then the probability of measuring $\ket{0}$ is again $|\braket{0}{-}|^2 =\frac{1}{2}$. Independent of the first measurement outcome, a second measurement in the $Z$ basis yields completely random results.
+
+\subsection*{Mutually unbiased bases}
+The property described above categorizes the $X-$ and $Z-$ bases as mutually unbiased. We can also define the $Y-$basis
+\begin{align}
+\ket{+i} &= \frac{\ket{0}+i\ket{1}}{\sqrt{2}} & \ket{-i} &= \frac{\ket{0}-i\ket{1}}{\sqrt{2}}
+\end{align}
+
+\subsection*{Orthonormality}
+Show that this basis is orthonormal. Then prove that the inner product between either of $\{\ket{+i}, \ket{-i}\}$ with \textit{any} of $\ket{0}, \ket{1}, \ket{+}$ or $\ket{-}$ has magnitude $\frac{1}{\sqrt{2}}$. What does this mean about successive measurements in different bases?
+\subsection*{Solution}
+\begin{align*}
+\braket{0}{+i} &= \qty(\frac{\braket{0}{0} + i\bra{0}\ket{1}}{\sqrt{2}}) = \frac{1}{\sqrt{2}} & \braket{0}{-i} &= \qty(\frac{\braket{0}{0} - i\bra{0}\ket{1}}{\sqrt{2}}) = \frac{1}{\sqrt{2}} \\
+\braket{1}{+i} &= \qty(\frac{\braket{1}{0} + i\bra{1}\ket{1}}{\sqrt{2}}) = \frac{i}{\sqrt{2}} & \braket{1}{-i} &= \qty(\frac{\braket{1}{0} - i\bra{1}\ket{1}}{\sqrt{2}}) = -\frac{i}{\sqrt{2}} \\
+\end{align*}
+\begin{align*}
+\braket{+}{+i} &= \qty(\frac{\braket{+}{0} + i\bra{+}\ket{1}}{\sqrt{2}}) = \frac{1+i}{2} & \braket{+}{-i} &= \qty(\frac{\braket{+}{0} - i\bra{+}\ket{1}}{\sqrt{2}}) = \frac{1-i}{2} \\
+\braket{-}{+i} &= \qty(\frac{\braket{-}{0} + i\bra{-}\ket{1}}{\sqrt{2}}) = \frac{1-i}{2} & \braket{-}{-i} &= \qty(\frac{\braket{-}{0} - i\bra{-}\ket{1}}{\sqrt{2}}) = \frac{1+i}{2} \\
+\end{align*}
+We can check that the magnitude of each is $\frac{1}{\sqrt{2}}$
+$$
+\qty|\frac{1\pm i}{2}| = \frac{\sqrt{1+1}}{2} = \frac{1}{\sqrt{2}}
+$$
+If one measurement is made in the $X$, $Y$, or $Z$ basis, then a second measurement in a different one of these bases will yeild a completely random result.
+\subsection*{How many unbiased bases?}
+Show that there are no more unbiased bases besides these three.
+
+\subsubsection*{Solution}
+Suppose that there were another vector $\ket{v} = \alpha \ket{0} + \beta \ket{1}$ besides the six listed whose inner product with any of the $X$, $Y$ or $Z$ basis kets has magnitude $\frac{1}{\sqrt{2}}$. Then we have
+\begin{align*}
+\qty|\braket{0}{v}|^2 &= \qty|\alpha|^2 = \frac{1}{2} & \qty|\braket{1}{v}|^2 &= \qty|\beta|^2 = \frac{1}{2}
+\end{align*}
+We also find
+\begin{align*}
+\qty|\braket{+}{v}|^2 &= \frac{1}{2}|\alpha + \beta|^2 = \frac{1}{2}
+\end{align*}
+This gives us $|\alpha + \beta|^2 = |\alpha|^2 + |\beta|^2 + 2\Re(\alpha^\ast \beta) = 1$, so $\Re(\alpha^\ast \beta) = 0$. Next, we take the inner product with a vector from the $Y$ basis: 
+\begin{align*}
+\qty|\braket{+i}{v}|^2 &= |\braket{+i}{0} + \braket{+i}{1}|^2 = \qty|\frac{\alpha}{\sqrt{2}} - \frac{i\beta}{\sqrt{2}}|^2 = \frac{1}{2}\qty|\alpha - i\beta|^2 = \frac{1}{2}
+\end{align*}
+This gives $\qty|\alpha - i\beta|^2 = |\alpha|^2 + |\beta|^2 -2\Im(\alpha^\ast \beta) = 1$, so $\Im(\alpha^\ast \beta) = 0$. But combining this with the above result, we have $\alpha^\ast \beta = 0$, which is only possible if $\alpha = \beta =0$. This shows that no such vector $\ket{v}$ exists. It turns out that the $X$, $Y$ and $Z$ bases, as the labels suggest, are related to the $\hat x, \hat y$, and $\hat z$ axes, and the fact that there are only three mutually unbiased bases reflects the three orthogonal axes in $\mathbb R^3$. 
+\end{document}
+\section*{State purity (Advanced)}
+\subsection*{Note on outer products}
+Just like we defined the inner product "brakets," with the inner product of $\ket{\psi}, \ket{\phi}$ being $\braket{\phi}{\psi}$, we can also define an outer product $\ketbra{\phi}{\psi}$. This outer product is an operator. To recap, states are like vectors, inner products are scalars, and outer products are operators. Furthermore, given an arbitrary operator $\hat O$, we can specify the action of $\hat O$ by its action on the basis vectors, namely $\hat O\ket{0} = \ket{v_1}$ and $\hat O \ket{1} = \hat{v_2}$, where $\ket{v_1}, \ket{v_2}$ are some arbitrary vectors (which must be orthonormal given that $\hat O$ is unitary, but that is unimportant.) Then consider the operator $T$, defined as follows:
+$$
+T = \ketbra{\vec v_1}{0} + \ketbra{\vec v_2}{1}
+$$
+Using the associative of multiplication, we have
+$$
+T\ket{0} = \ket{\vec v_1}\underbrace{\braket{0}{0}}_{=1} + \ket{\vec v_2}\underbrace{\braket{1}{0}}_{=0} = \ket{v_1}
+$$
+and the same can be checked for $\ket{1}$. Using this construction, we can also find expressions for matrix elements in ketbra form:
+\begin{align}
+\ketbra{0}{0} &= \mqty(1 & 0 \\ 0 & 0) & \ketbra{1}{0} &= \mqty(0 & 0 \\ 1 & 0) & \ketbra{0}{1} &= \mqty(0 & 1 \\ 0 & 0) & \ketbra{1}{1} &= \mqty(0 & 0 \\ 0 & 1)
+\end{align}
+This shows that the outer products of basis vectors, or "ketbras" span the space of matrices. 
+\subsection*{Note on traces}
+The trace of an operator is the sum of the elements on the diagonal. If we write an operator $T$ as $T = \sum_{m,n \in \{0,1\}}T_{mn}\ketbra{m}{n}$, then taking the trace is equivalent to
+$$
+\sum_{i}\bra{i}T\ket{i} = \sum_{i}T_{mn}\braket{i}{m}\braket{n}{i} = \sum_{i}T_{ii}
+$$
+The choice of basis was completely arbitrary
